@@ -16,6 +16,10 @@ const InstaSchema = mongoose.Schema({
     description:{
         type:String,
         require:true   
+    },
+    date:{
+        type:String,
+        default:(new Date().toLocaleDateString())
     }
 })
 

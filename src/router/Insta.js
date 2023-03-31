@@ -6,10 +6,7 @@ const {GridFsStorage} = require("multer-gridfs-storage")
 require("dotenv").config();
 const {GridFSBucket, MongoClient} = require("mongodb");
 
-
-const client = new MongoClient(process.env.BASE_URL);
-
-
+const client = new MongoClient(process.env.BASE_URL);//atlas url
 
 
 
@@ -17,10 +14,10 @@ const client = new MongoClient(process.env.BASE_URL);
 
 router.get("/post/:file" ,async(req,res)=>{
   try{
-      await client.connect();
-      const dataStore= client.db(process.env.DB);
-     const Bucket = new GridFSBucket(dataStore,{bucketName:process.env.COLECTION_DB});
-     const eventVar= Bucket.openDownloadStreamByName(req.params.file);
+    await client.connect();//
+    const dataStore= client.db(process.env.DB);//dbname
+    const Bucket = new GridFSBucket(dataStore,{bucketName:process.env.COLECTION_DB});//photos
+    const eventVar= Bucket.openDownloadStreamByName(req.params.file);//
     eventVar.on("data",(data)=>{
       return res.write(data)
     })
@@ -59,7 +56,6 @@ return{
   fileName:`${Date.now()}_${file.originalname}`
 }}
 })
-
 const upload =  multer({
   storage:Storage
 })
